@@ -9,9 +9,15 @@ class Note {
     this.images = new Array();
   }
 
-  fetchFullNote() {}
+  fetchFullNote() {
+    return "lul";
+  }
 
   previewNote() {
-    return this._title, this._content;
+    let preview = {
+      title: this._title,
+      content: this._content,
+    };
+    return preview;
   }
 }
