@@ -10,7 +10,7 @@ class Note {
   }
 
   fetchFullNote() {
-    return "lul";
+    return this;
   }
 
   previewNote() {
