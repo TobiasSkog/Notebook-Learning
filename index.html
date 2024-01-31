@@ -4,13 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <title>Snyggaste pojkarna</title>
 </head>
 
 <body>
-
   <aside class="options-container">
     <section>
       <a href="#"><img src="img/loggo.png" class="logo" alt="logo"></a>
@@ -24,38 +22,10 @@
       </ul>
     </nav>
   </aside>
-
-  <aside class="note-container">
-    <div class="note-object">
-      <h2 class="note-title">My first note</h2>
-      <p class="note-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi sed non delectus in
-        unde
-        asperiores mollitia, voluptatem harum quos, libero sequi ratione nostrum fugiat nobis temporibus! Nesciunt
-        repellat aliquam dolorum!</p>
-      <!-- <span class="content-favorite" style="font-size:300%;color:yellow;">&starf;</span> -->
-    </div>
-    <div class="note-object-active">
-      <h2 class="note-title">My second note</h2>
-      <p class="note-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi sed non delectus in
-        unde
-        asperiores mollitia, voluptatem harum quos, libero sequi ratione nostrum fugiat nobis temporibus! Nesciunt
-        repellat aliquam dolorum!</p>
-      <!-- <span class="content-favorite" style="font-size:300%;color:yellow;">&starf;</span> -->
-    </div>
-    <div class="note-object">
-      <h2 class="note-title">My third note</h2>
-      <p class="note-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi sed non delectus in
-        unde
-        asperiores mollitia, voluptatem harum quos, libero sequi ratione nostrum fugiat nobis temporibus! Nesciunt
-        repellat aliquam dolorum!</p>
-      <!-- <span class="content-favorite" style="font-size:300%;color:yellow;">&starf;</span> -->
-    </div>
+  <aside class="note-container" id="note-container">
 
   </aside>
-
-
   <main class="grid-content-container">
-
     <section class="content-container">
       <h2 class="content-title">My second note</h2>
       <h3 class="content-edited">Last edited 2024-01-28</h3>
@@ -67,18 +37,19 @@
         harum nulla tempora praesentium exercitationem quia ex quaerat quis recusandae neque est atque voluptate
         perspiciatis perferendis incidunt dolor doloremque! Tempora dicta molestias tenetur minima pariatur quis dolorum
         asperiores! Quos?</p>
+      <div class="b-holder">
+        <button id="btn-kms" onclick="confirmKms()">Clear Local Storage</button>
+        <button id="btn-export" onclick="exportNotes()">Export Notes</button>
+        <div class="import-container">
+          <input type="file" id="import-input" onchange="importNotes()" />
+        </div>
+      </div>
     </section>
   </main>
-
-
-
   <!-- SCRIPTS BELOW -->
   <script src="scripts/db.js"></script>
   <script src="scripts/note.js"></script>
   <script src="scripts/script.js"></script>
-
-
-
 </body>
 
 </html>

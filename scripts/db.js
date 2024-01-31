@@ -1,47 +1,70 @@
 class DB {
-  constructor() {
-    this._name = "noteContainer";
-    this._dbContainer = new Array();
-    if (localStorage.getItem(this._name) != null) {
-      console.log("local storage is NOT empty");
-      this._dbContainer.length = 0;
-      this._dbContainer = JSON.parse(localStorage.getItem(this._name));
-      console.log(this);
-    }
-  }
-  Save(value) {
-    if (localStorage.getItem(this._name) != null) {
-      this._dbContainer = JSON.parse(localStorage.getItem(this._name));
-    }
-    this._dbContainer.push(value);
-    localStorage.setItem(this._name, JSON.stringify(this._dbContainer));
-  }
+	#noteContainerName = "noteContainer";
+	#dbNotesContainer = [];
+	noteContainerElement = document.getElementById("note-container");
 
-  Load(key) {
-    this._dbContainer = JSON.parse(localStorage.getItem(this._name));
-    const result = this._dbContainer.find((kvp) => kvp.title === key);
-    if (result) {
-      return result;
-    } else {
-      console.log("No object with the key was found");
-    }
-  }
+	constructor() {
+		this.refreshDBContainer();
+	}
 
-  LoadAll() {
-    return (this._dbContainer = JSON.parse(localStorage.getItem(this._name)));
-  }
+	kms() {
+		localStorage.removeItem(this.#noteContainerName);
+		this.#dbNotesContainer = [];
+		this.noteContainerElement.innerHTML = "";
+	}
+	refreshDBContainer() {
+		this.#dbNotesContainer = JSON.parse(localStorage.getItem(this.#noteContainerName) || '[]').map(x => new Note(x));
+	}
 
-  //Remove(key) {
-  // this._dbContainer = JSON.parse(localStorage.getItem(this._name));
-  // this._dbContainer.re
-  // localStorage.removeItem(key);
-  //}
+	save(object) {
+		this.#dbNotesContainer.push(object);
+		localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
+	}
 
-  Debug() {
-    console.log(this._dbContainer.length);
-    console.log(typeof this._dbContainer);
-    // for (let i = 0; i < this._dbContainer.length; i++) {
-    //   console.log(this._dbContainer[i]);
-    // }
-  }
+	openNoteForEditing(note) {
+		const result = this.#dbNotesContainer.find(x => x.id === note.id);
+		if (result) {
+			return result;
+		} else {
+			console.log("No object with the key was found");
+		}
+	}
+
+	loadAllNotes() {
+		this.noteContainerElement.innerHTML = "";
+
+		this.#dbNotesContainer.forEach(note => {
+			this.noteContainerElement.innerHTML +=
+				`<div class="note-object">
+					<h2 class="note-title"> ${note.title} </h2>
+					<p class="note-body"> ${note.getContentPreview()} </p>
+				</div >`;
+		});
+	}
+
+	remove(note) {
+		const i = this.#dbNotesContainer.findIndex((x) => x.id === note.id);
+		this.#dbNotesContainer.splice(i, 1);
+		localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
+	}
+
+	export() {
+		return JSON.stringify(this.#dbNotesContainer);
+	}
+
+	import(file) {
+		const reader = new FileReader();
+		reader.addEventListener(
+			"load",
+			() => {
+				this.#dbNotesContainer = JSON.parse(reader.result || '[]').map(x => new Note(x));
+				this.loadAllNotes();
+			},
+			false,
+		);
+		if (file) {
+			reader.readAsText(file);
+		}
+	}
+
 }
