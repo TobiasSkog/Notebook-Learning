@@ -75,6 +75,7 @@ class DB {
 			() => {
 				this.#dbNotesContainer = JSON.parse(reader.result || '[]').map(x => new Note(x));
 				this.loadAllNotes();
+				localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 			},
 			false,
 		);
