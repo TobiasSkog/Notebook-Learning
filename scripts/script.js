@@ -1,9 +1,5 @@
 let myDb = new DB();
-// let myNote = new Note({
-// 	title: "This is a Javascript Class",
-// 	content: "This is a test for the greater good of mankind lets see if this works, hurr durr durrrrrr."
-// });
-//myDb.save(myNote);
+
 myDb.loadAllNotes();
 
 function confirmKms() {
@@ -44,3 +40,19 @@ function importNotes() {
 		myDb.import(file);
 	}
 }
+
+
+
+
+
+
+
+/**************************************************************************/
+/******************* IF YOU NEED DEFAULT DATA ADD THIS ********************/
+/**************************************************************************/
+// let myNote = new Note({
+// 	title: "This is a Javascript Class",
+// 	content: "This is a test for the greater good of mankind lets see if this works, hurr durr durrrrrr."
+// });
+//myDb.save(myNote);
+/**************************************************************************/
