@@ -15,7 +15,7 @@ class Note {
 		lastEdit = new Date(),
 		content = "",
 		favorite = false,
-		tags = [],
+		tags = ["test", "cool", "potato"],
 		images = [],
 	} = {}) {
 		this.id = id;
@@ -31,4 +31,22 @@ class Note {
 	getContentPreview() {
 		return this.content.substring(0, 55) + " ...";
 	}
+
+	toggleFavorite() {
+		this.favorite = !(this.favorite != false)
+	}
+
+	addTag(tag) {
+		if (tag) {
+			this.tags.push(tag);
+		}
+	}
+
+	removeTag(tag) {
+		if (tag) {
+			let i = this.tags.indexOf(tag);
+			this.tags.splice(i, 1);
+		}
+	}
+
 }

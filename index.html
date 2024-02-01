@@ -11,14 +11,14 @@
 <body>
   <aside class="options-container">
     <section>
-      <a href="#"><img src="img/loggo.png" class="logo" alt="logo"></a>
+      <a href="#" id="home-button"><img src="img/loggo.png" class="logo" alt="logo"></a>
     </section>
     <nav class="nav-container">
       <ul>
-        <a href="#"><img src="img/search.png" class="menu-button"></a>
-        <a href="#"><img src="img/fav.png" class="menu-button"></a>
-        <a href="#"><img src="img/stats.png" class="menu-button"></a>
-        <a href="#"><img src="img/settings.png" class="menu-button"></a>
+        <a href="#" id="search-button"><img src="img/search.png" class="menu-button"></a>
+        <a href="#" id="fav-button"><img src="img/fav.png" class="fav-inactive" onclick="toggleFavorite(this)"></a>
+        <a href="#" id="stats-button"><img src="img/stats.png" class="menu-button"></a>
+        <a href="#" id="settings-button"><img src="img/settings.png" class="menu-button"></a>
       </ul>
     </nav>
   </aside>
@@ -27,21 +27,51 @@
   </aside>
   <main class="grid-content-container">
     <section class="content-container" id="content-container">
+      <div class="modal" id="search">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>SEARCH FOR SOMETHING?</p>
+        </div>
+      </div>
     </section>
 
 
-    <div class="b-holder">
-      <button id="btn-kms" onclick="confirmKms()">Clear Local Storage</button>
-      <button id="btn-export" onclick="exportNotes()">Export Notes</button>
-      <div class="import-container">
-        <input type="file" id="import-input" onchange="importNotes()" />
-      </div>
-    </div>
+
 
   </main>
 
+  <!-- MODAL ELEMENT-->
+
+
+  <div class="modal" id="favorite">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>YOU ANY FAVORITE SON?</p>
+    </div>
+  </div>
+
+  <div class="modal" id="stats">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>GOT ANY STATS YO?</p>
+    </div>
+  </div>
+
+  <div class="modal" id="settings">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>SETTINGS IN HERE I HEARD?</p>
+      <div class="b-holder">
+        <button id="btn-kms" onclick="confirmKms()">Clear Local Storage</button>
+        <button id="btn-export" onclick="exportNotes()">Export Notes</button>
+        <div class="import-container">
+          <input type="file" id="import-input" onchange="importNotes()" />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPTS BELOW -->
-  <script src="scripts/db.js"></script>
   <script src="scripts/note.js"></script>
   <script src="scripts/script.js"></script>
 </body>

@@ -13,6 +13,7 @@ class DB {
 		this.#dbNotesContainer = [];
 		this.noteContainerElement.innerHTML = "";
 	}
+
 	refreshDBContainer() {
 		this.#dbNotesContainer = JSON.parse(localStorage.getItem(this.#noteContainerName) || '[]').map(x => new Note(x));
 	}
@@ -42,20 +43,50 @@ class DB {
 				</div >`;
 		});
 	}
+	loadFavoriteNotes() {
+		this.noteContainerElement.innerHTML = "";
+
+		this.#dbNotesContainer.forEach(note => {
+			if (note.favorite === true) {
+				this.noteContainerElement.innerHTML +=
+					`<div class="note-object">
+					<h2 class="note-title"> ${note.title} </h2>
+					<p class="note-body"> ${note.getContentPreview()} </p>
+				</div >`;
+			}
+		});
+	}
+
+	loadNotesWithTags(tags) {
+		const foundNotes = [];
+
+		this.#dbNotesContainer.forEach(note => {
+			tags.forEach(tag => {
+				if (note.tags.includes(tag)) {
+					if (!foundNotes.includes(note)) {
+						foundNotes.push(note);
+					}
+				}
+			});
+		});
+
+		this.noteContainerElement.innerHTML = "";
+
+		foundNotes.forEach(note => {
+			this.noteContainerElement.innerHTML +=
+				`<div class="note-object">
+					<h2 class="note-title"> ${note.title} </h2>
+					<p class="note-body"> ${note.getContentPreview()} </p>
+				</div >`;
+		});
+	}
 
 	loadActiveNote(note) {
 
 		contentContainerElement.innerHTML = `
       <h2 class="content-title">My second note</h2>
       <h3 class="content-edited">Last edited 2024-01-28</h3>
-      <p class="content-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio expedita illo magni
-        quasi, praesentium
-        enim eos eaque consequuntur dignissimos quo eius nesciunt pariatur est consequatur incidunt sint ipsum facere
-        impedit odio illum dolores corporis. Recusandae consequatur sunt, inventore qui sequi fuga deserunt eius iste
-        placeat, quos quae odit minus mollitia distinctio nam soluta. Eius quam cumque illo, non natus deleniti eaque
-        harum nulla tempora praesentium exercitationem quia ex quaerat quis recusandae neque est atque voluptate
-        perspiciatis perferendis incidunt dolor doloremque! Tempora dicta molestias tenetur minima pariatur quis dolorum
-        asperiores! Quos?</p>`;
+      <p class="content-body">Lorem ipsum</p>`;
 	}
 
 	remove(note) {
@@ -75,6 +106,7 @@ class DB {
 			() => {
 				this.#dbNotesContainer = JSON.parse(reader.result || '[]').map(x => new Note(x));
 				this.loadAllNotes();
+				localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 			},
 			false,
 		);
