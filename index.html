@@ -16,7 +16,7 @@
     <nav class="nav-container">
       <ul>
         <a href="#" id="search-button"><img src="img/search.png" class="menu-button"></a>
-        <a href="#" id="fav-button"><img src="img/fav.png" class="menu-button"></a>
+        <a href="#" id="fav-button"><img src="img/fav.png" class="fav-inactive" onclick="toggleFavorite(this)"></a>
         <a href="#" id="stats-button"><img src="img/stats.png" class="menu-button"></a>
         <a href="#" id="settings-button"><img src="img/settings.png" class="menu-button"></a>
       </ul>
@@ -27,6 +27,12 @@
   </aside>
   <main class="grid-content-container">
     <section class="content-container" id="content-container">
+      <div class="modal" id="search">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>SEARCH FOR SOMETHING?</p>
+        </div>
+      </div>
     </section>
 
 
@@ -35,12 +41,7 @@
   </main>
 
   <!-- MODAL ELEMENT-->
-  <div class="modal" id="search">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>SEARCH FOR SOMETHING?</p>
-    </div>
-  </div>
+
 
   <div class="modal" id="favorite">
     <div class="modal-content">
@@ -71,7 +72,6 @@
   </div>
 
   <!-- SCRIPTS BELOW -->
-  <script src="scripts/db.js"></script>
   <script src="scripts/note.js"></script>
   <script src="scripts/script.js"></script>
 </body>

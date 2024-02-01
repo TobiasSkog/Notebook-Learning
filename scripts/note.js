@@ -15,7 +15,7 @@ class Note {
 		lastEdit = new Date(),
 		content = "",
 		favorite = false,
-		tags = [],
+		tags = ["test", "cool", "potato"],
 		images = [],
 	} = {}) {
 		this.id = id;

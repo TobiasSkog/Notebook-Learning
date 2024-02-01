@@ -1,15 +1,18 @@
 const myDb = new DB();
+
 const searchModal = document.getElementById('search');
-const favoriteModal = document.getElementById('favorite');
+const favoriteImg = document.getElementById('fav-image');
 const statsModal = document.getElementById('stats');
 const settingsModal = document.getElementById('settings');
 document.getElementById('search-button').addEventListener('click', openSearch);
-document.getElementById('fav-button').addEventListener('click', openFavorites);
 document.getElementById('stats-button').addEventListener('click', openStatistics);
 document.getElementById('settings-button').addEventListener('click', openSettings);
 
+
+
 myDb.loadAllNotes();
 
+//myDb.loadNotesWithTags(["ost", "hezt", "apa"])
 
 
 function confirmKms() {
@@ -39,6 +42,7 @@ function download(content, fileName, contentType) {
 		URL.revokeObjectURL(url);
 	}
 }
+
 function exportNotes() {
 	const jsonData = myDb.export();
 	download(jsonData, 'MyNotes.json', 'application/json');
@@ -50,29 +54,37 @@ function importNotes() {
 		myDb.import(file);
 	}
 }
-
+function toggleFavorite(element) {
+	if (element.className != "fav-inactive") {
+		element.src = "../img/fav.png"
+		element.className = "fav-inactive";
+		// DB fetch ALL notes
+		myDb.loadAllNotes()
+	}
+	else if (element.className != "fav-active") {
+		element.src = "../img/favPressed.png"
+		element.className = "fav-active";
+		// Db fetch ONLY favorite marked notes
+		myDb.loadFavoriteNotes();
+	}
+}
 function openSearch() {
 	searchModal.style.display = 'block';
 }
 
-function openFavorites() {
-	favoriteModal.style.display = 'block';
-}
 function openStatistics() {
 	statsModal.style.display = 'block';
 }
+
 function openSettings() {
 	settingsModal.style.display = 'block';
 }
 
-
 window.addEventListener('click', function (event) {
 	if (event.target == searchModal) {
 		searchModal.style.display = 'none';
-	} else if (event.target == favoriteModal) {
-		favoriteModal.style.display = 'none';
-
-	} else if (event.target == statsModal) {
+	}
+	else if (event.target == statsModal) {
 		statsModal.style.display = 'none';
 
 	} else if (event.target == settingsModal) {
@@ -80,6 +92,7 @@ window.addEventListener('click', function (event) {
 	}
 	//add the other optional modals here
 });
+
 function closeModal() {
 	searchModal.style.display = 'none';
 	favoriteModal.style.display = 'none';
@@ -87,16 +100,18 @@ function closeModal() {
 	settingsModal.style.display = 'none';
 }
 
-
-
-
-
 /**************************************************************************/
 /******************* IF YOU NEED DEFAULT DATA ADD THIS ********************/
 /**************************************************************************/
 // let myNote = new Note({
-// 	title: "This is a Javascript Class",
-// 	content: "This is a test for the greater good of mankind lets see if this works, hurr durr durrrrrr."
+// 	title: "The Title",
+// 	content: "The smallest test for the greater good of mankind lets see if this works, hurr durr durrrrrr."
 // });
-//myDb.save(myNote);
-/**************************************************************************/
+// myDb.save(myNote);
+/*************************
+ *
+ *
+ *
+ *
+ *
+ * *************************************************/
