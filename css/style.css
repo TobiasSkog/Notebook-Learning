@@ -53,6 +53,14 @@
   height: 10%;
 }
 
+.note-object:hover{
+  overflow: hidden;
+  background-color: white;
+  border-right: 4px white solid;
+  padding: 5%;
+  height: 15%;
+}
+
 .note-object-active {
   overflow: hidden;
   background-color: white;

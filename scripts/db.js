@@ -13,6 +13,7 @@ class DB {
 		this.#dbNotesContainer = [];
 		this.noteContainerElement.innerHTML = "";
 	}
+
 	refreshDBContainer() {
 		this.#dbNotesContainer = JSON.parse(localStorage.getItem(this.#noteContainerName) || '[]').map(x => new Note(x));
 	}
@@ -22,8 +23,8 @@ class DB {
 		localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 	}
 
-	openNoteForEditing(note) {
-		const result = this.#dbNotesContainer.find(x => x.id === note.id);
+	openNoteForEditing(id) {
+		const result = this.#dbNotesContainer.find(x => x.id === id);
 		if (result) {
 			return result;
 		} else {
@@ -31,31 +32,33 @@ class DB {
 		}
 	}
 
-	loadAllNotes() {
+  loadAllNotes() {
 		this.noteContainerElement.innerHTML = "";
 
 		this.#dbNotesContainer.forEach(note => {
 			this.noteContainerElement.innerHTML +=
-				`<div class="note-object">
+				`<div class="note-object" id="${note.id}" onclick="onClickNote(id)">
 					<h2 class="note-title"> ${note.title} </h2>
 					<p class="note-body"> ${note.getContentPreview()} </p>
 				</div >`;
 		});
 	}
 
-	loadActiveNote(note) {
+// 	monkeyIsNote() {
 
-		contentContainerElement.innerHTML = `
-      <h2 class="content-title">My second note</h2>
-      <h3 class="content-edited">Last edited 2024-01-28</h3>
-      <p class="content-body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio expedita illo magni
-        quasi, praesentium
-        enim eos eaque consequuntur dignissimos quo eius nesciunt pariatur est consequatur incidunt sint ipsum facere
-        impedit odio illum dolores corporis. Recusandae consequatur sunt, inventore qui sequi fuga deserunt eius iste
-        placeat, quos quae odit minus mollitia distinctio nam soluta. Eius quam cumque illo, non natus deleniti eaque
-        harum nulla tempora praesentium exercitationem quia ex quaerat quis recusandae neque est atque voluptate
-        perspiciatis perferendis incidunt dolor doloremque! Tempora dicta molestias tenetur minima pariatur quis dolorum
-        asperiores! Quos?</p>`;
+// 		const makeInactive = document.getElementById("note-object-active");
+
+// 		if (this.noteContainerElement.classList.contains("note-object-active")) {
+// 			this.noteContainerElement.classList.remove("note-object-active");
+// 		}
+// }
+
+	loadActiveNote(id) {
+		const note = this.openNoteForEditing(id);
+		this.contentContainerElement.innerHTML = `
+      <h2 class="content-title">${note.title}</h2>
+      <h3 class="content-edited">${note.lastEdit}</h3>
+      <p class="content-body">${note.content}</p>`;
 	}
 
 	remove(note) {
@@ -74,7 +77,8 @@ class DB {
 			"load",
 			() => {
 				this.#dbNotesContainer = JSON.parse(reader.result || '[]').map(x => new Note(x));
-				this.loadAllNotes();
+        this.loadAllNotes();
+        localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 			},
 			false,
 		);

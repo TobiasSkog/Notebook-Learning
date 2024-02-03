@@ -1,6 +1,10 @@
 let myDb = new DB();
-
+//myDb.kms();
 myDb.loadAllNotes();
+
+//testing shit
+const noteIsActive = document.getElementById("note-object");
+
 
 function confirmKms() {
 	const isConfirmed = confirm("Are you sure you want to clear the local storage?");
@@ -41,8 +45,39 @@ function importNotes() {
 	}
 }
 
+function onClickNote(id) {
+	myDb.loadActiveNote(id);
+	//myDb.loadActiveNote(myDb.openNoteForEditing(id));
+	//inactiveNoteStyle();
+	//apapapapa(id, noteIsActive);
+	activeNoteStyle(id);
+}
 
+function apapapapa(noteIsActive) {
+	//noteIsActive.classList.toggle("note-object-active");
+	if (noteIsActive.classList.contains("note-object-active")) {
+		noteIsActive.classList.replace("note-object-active", "note-object");
+	} else {
+		noteIsActive.classList.replace("note-object", "note-object-active");
+	}
+}
 
+function inactiveNoteStyle() {
+	//noteContainerElement
+	const makeInactive = document.getElementById("note-object-active");
+	if (makeInactive != null && makeInactive.classList.contains("note-object-active")) {
+		makeInactive.classList.replace("note-object-active", "note-object");
+	} else if(makeInactive == null){
+		makeInactive.classList.add("note-object");
+	}
+
+}
+
+function activeNoteStyle(id) {
+	const makeActive = document.getElementById(id);
+	//makeActive.classList.remove("note-object");
+	makeActive.classList.add("note-object-active");
+}
 
 
 
@@ -54,5 +89,5 @@ function importNotes() {
 // 	title: "This is a Javascript Class",
 // 	content: "This is a test for the greater good of mankind lets see if this works, hurr durr durrrrrr."
 // });
-//myDb.save(myNote);
+// myDb.save(myNote);
 /**************************************************************************/
