@@ -14,25 +14,43 @@
       <a href="#" id="home-button"><img src="img/loggo.png" class="logo" alt="logo"></a>
     </section>
     <nav class="nav-container">
-      <ul>
-        <a href="#" id="search-button"><img src="img/search.png" class="menu-button"></a>
-        <a href="#" id="fav-button"><img src="img/fav.png" class="fav-inactive" onclick="toggleFavorite(this)"></a>
-        <a href="#" id="stats-button"><img src="img/stats.png" class="menu-button"></a>
-        <a href="#" id="settings-button"><img src="img/settings.png" class="menu-button"></a>
-      </ul>
+      <a href="#" id="search-button"><img src="img/search.png" class="menu-button"></a>
+      <a href="#" id="fav-button"><img src="img/fav.png" id='fav-image' class="fav-inactive"></a>
+      <a href="#" id="stats-button"><img src="img/stats.png" class="menu-button"></a>
+      <a href="#" id="settings-button"><img src="img/settings.png" class="menu-button"></a>
     </nav>
   </aside>
   <aside class="note-container" id="note-container">
 
   </aside>
+  <!-- input-box == search-box -->
+  <!-- input-box input == search-content input -->
+  <div class="modal-search" id="search">
+    <div class="search-content">
+      <!-- search-content BÖRJAR HÄR -->
+      <div class="search-box">
+        <input id="search-tags-input" type="text" placeholder="Search...">
+        <button class="close" id="close-search">&times;</input>
+      </div>
+      <input type="button" class="remove-tags" id="remove-tags" value="Clear Search"></input>
+      <div class="search-tags" id="search-tags">
+        <!-- Tags börjar här -->
+        <div class="tag-container">
+          <p class="tag">Sociala styrelsen tar över finland</p>
+          <p class="remove-tag">&times;</p>
+        </div>
+        <div class="tag-container">
+          <p class="tag">Björn olasjdjoiasodj awdjioja woidjaoijwdoia jwdiojawoidjaiowjdoiawjdoijawoidjaowdj</p>
+          <p class="remove-tag">&times;</p>
+        </div>
+        <!-- Tags slutar här -->
+      </div>
+      <!-- search-content SLUTAR HÄR -->
+    </div>
+  </div>
   <main class="grid-content-container">
     <section class="content-container" id="content-container">
-      <div class="modal" id="search">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>SEARCH FOR SOMETHING?</p>
-        </div>
-      </div>
+
     </section>
 
 
@@ -41,6 +59,7 @@
   </main>
 
   <!-- MODAL ELEMENT-->
+
 
 
   <div class="modal" id="favorite">
@@ -62,18 +81,23 @@
       <span class="close">&times;</span>
       <p>SETTINGS IN HERE I HEARD?</p>
       <div class="b-holder">
-        <button id="btn-kms" onclick="confirmKms()">Clear Local Storage</button>
-        <button id="btn-export" onclick="exportNotes()">Export Notes</button>
+        <button id="btn-kms">Clear Local Storage</button>
+        <button id="btn-export">Export Notes</button>
         <div class="import-container">
-          <input type="file" id="import-input" onchange="importNotes()" />
+          <input type="file" id="import-input" />
         </div>
       </div>
     </div>
   </div>
 
   <!-- SCRIPTS BELOW -->
-  <script src="scripts/note.js"></script>
-  <script src="scripts/script.js"></script>
+  <script type="module" src="./scripts/note.js"></script>
+  <script type="module" src="./scripts/services.js"></script>
+  <script type="module" src="./scripts/render.js"></script>
+  <script type="module" src="./scripts/modals.js"></script>
+  <script type="module" src="./scripts/db.js"></script>
+  <script type="module" src="./scripts/search.js"></script>
+  <script type="module" src="./scripts/script.js"></script>
 </body>
 
 </html>

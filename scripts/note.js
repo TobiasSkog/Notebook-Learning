@@ -1,4 +1,4 @@
-class Note {
+export default class Note {
 	id;
 	title;
 	created;
@@ -8,16 +8,19 @@ class Note {
 	tags;
 	images;
 
-	constructor({
-		id = crypto.randomUUID(),
-		title = "Default title",
-		created = new Date(),
-		lastEdit = new Date(),
-		content = "",
-		favorite = false,
-		tags = ["test", "cool", "potato"],
-		images = [],
-	} = {}) {
+	constructor(
+		{
+			id = crypto.randomUUID(),
+			title = "Default title",
+			created = new Date(),
+			lastEdit = new Date(),
+			content = "",
+			favorite = false,
+			tags = ["test", "cool", "potato"],
+			images = [],
+		} = {}
+	) {
+
 		this.id = id;
 		this.title = title;
 		this.created = created;

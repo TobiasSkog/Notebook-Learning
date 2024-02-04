@@ -1,30 +1,31 @@
-class DB {
+import { modalsInstance, renderInstance, searchInstance } from './services.js';
+import Note from './note.js';
+export default class DB {
 	#noteContainerName = "noteContainer";
 	#dbNotesContainer = [];
-	noteContainerElement = document.getElementById("note-container");
-	contentContainerElement = document.getElementById("content-container");
-
 	constructor() {
 		this.refreshDBContainer();
 	}
 
-	kms() {
-		localStorage.removeItem(this.#noteContainerName);
-		this.#dbNotesContainer = [];
-		this.noteContainerElement.innerHTML = "";
-	}
-
 	refreshDBContainer() {
-		this.#dbNotesContainer = JSON.parse(localStorage.getItem(this.#noteContainerName) || '[]').map(x => new Note(x));
+		const storedData = JSON.parse(localStorage.getItem(this.#noteContainerName) || '[]');
+
+		this.#dbNotesContainer = storedData.map((note) => {
+			if (note) {
+				return new Note(note)
+			}
+		});
 	}
 
 	save(object) {
-		this.#dbNotesContainer.push(object);
+		if (object && object instanceof Note) {
+			this.#dbNotesContainer.push(object);
+		}
 		localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 	}
 
-	openNoteForEditing(note) {
-		const result = this.#dbNotesContainer.find(x => x.id === note.id);
+	openNoteForEditing(id) {
+		const result = this.#dbNotesContainer.find(x => x.id === id);
 		if (result) {
 			return result;
 		} else {
@@ -33,65 +34,41 @@ class DB {
 	}
 
 	loadAllNotes() {
-		this.noteContainerElement.innerHTML = "";
-
-		this.#dbNotesContainer.forEach(note => {
-			this.noteContainerElement.innerHTML +=
-				`<div class="note-object">
-					<h2 class="note-title"> ${note.title} </h2>
-					<p class="note-body"> ${note.getContentPreview()} </p>
-				</div >`;
-		});
+		renderInstance.renderAllNotes(this.#dbNotesContainer);
 	}
+
 	loadFavoriteNotes() {
-		this.noteContainerElement.innerHTML = "";
+		renderInstance.clearNotePreview();
 
 		this.#dbNotesContainer.forEach(note => {
 			if (note.favorite === true) {
-				this.noteContainerElement.innerHTML +=
-					`<div class="note-object">
-					<h2 class="note-title"> ${note.title} </h2>
-					<p class="note-body"> ${note.getContentPreview()} </p>
-				</div >`;
+				renderInstance.renderNotePreview(note);
 			}
 		});
 	}
 
-	loadNotesWithTags(tags) {
-		const foundNotes = [];
+	searchForNotesWithTags(tags) {
+		renderInstance.clearNotePreview();
 
-		this.#dbNotesContainer.forEach(note => {
-			tags.forEach(tag => {
-				if (note.tags.includes(tag)) {
-					if (!foundNotes.includes(note)) {
-						foundNotes.push(note);
-					}
-				}
-			});
-		});
-
-		this.noteContainerElement.innerHTML = "";
-
+		const foundNotes = this.#dbNotesContainer.filter(note => note.tags.some(tag => tags.includes(tag)));
 		foundNotes.forEach(note => {
-			this.noteContainerElement.innerHTML +=
-				`<div class="note-object">
-					<h2 class="note-title"> ${note.title} </h2>
-					<p class="note-body"> ${note.getContentPreview()} </p>
-				</div >`;
+			renderInstance.renderNotePreview(note);
 		});
 	}
 
-	loadActiveNote(note) {
+	// loadActiveNote(id) {
+	// 	const note = this.openNoteForEditing(id);
+	// 	renderInstance.renderMainContent(note);
+	// 	renderInstance.renderActiveNotePreview(id);
+	// }
 
-		contentContainerElement.innerHTML = `
-      <h2 class="content-title">My second note</h2>
-      <h3 class="content-edited">Last edited 2024-01-28</h3>
-      <p class="content-body">Lorem ipsum</p>`;
+	getActiveNote(id) {
+		return this.#dbNotesContainer.find(note => note.id === id);
 	}
 
-	remove(note) {
-		const i = this.#dbNotesContainer.findIndex((x) => x.id === note.id);
-		this.#dbNotesContainer.splice(i, 1);
+	remove(noteToRemove) {
+		const index = this.#dbNotesContainer.findIndex((note) => note.id === noteToRemove.id);
+		this.#dbNotesContainer.splice(index, 1);
 		localStorage.setItem(this.#noteContainerName, JSON.stringify(this.#dbNotesContainer));
 	}
 
@@ -115,4 +92,23 @@ class DB {
 		}
 	}
 
+	kms() {
+		localStorage.removeItem(this.#noteContainerName);
+		this.#dbNotesContainer = [];
+		renderInstance.clearAll();
+	}
 }
+
+
+
+// const foundNotes = [];
+
+// this.#dbNotesContainer.forEach(note => {
+// 	tags.forEach(tag => {
+// 		if (note.tags.includes(tag)) {
+// 			if (!foundNotes.includes(note)) {
+// 				foundNotes.push(note);
+// 			}
+// 		}
+// 	});
+// });
