@@ -12,7 +12,6 @@ export default class Search {
     this.removeTagsButton.addEventListener('click', () => this.removeAllSearchedTags());
     this.tagsContainer.addEventListener('click', (event) => this.removeSpecificTag(event.target));
     this.input.addEventListener('keyup', (event) => (event.key === 'Enter') && this.checkInputValue(this.input.value));
-
   }
 
   checkInputValue(tag) {

@@ -23,10 +23,10 @@ export default class Modals {
     this.statsButton.addEventListener('click', () => this.toggleModal(this.statsModal));
     this.settingsButton.addEventListener('click', () => this.toggleModal(this.settingsModal));
     this.favoriteButton.addEventListener('click', () => this.toggleFavorite(this.favoriteImg));
-    this.closeSearchButton.addEventListener('click', () => this.toggleModal(this.searchModal));
     this.kmsButton.addEventListener('click', () => this.confirmKms());
     this.importInput.addEventListener('change', () => this.importNotes());
     this.exportButton.addEventListener('click', () => this.exportNotes());
+    this.closeSearchButton.addEventListener('click', () => this.closeModal(this.searchModal));
 
     window.addEventListener('click', (event) => {
       if (event.target === this.searchModal) {
@@ -64,6 +64,11 @@ export default class Modals {
     }
   }
 
+  closeModal(modal) {
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
   download(content, fileName, contentType) {
     const a = document.createElement('a');
     const file = new Blob([content], { type: contentType });
